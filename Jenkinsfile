@@ -1,12 +1,14 @@
 pipeline {
     agent {
-        docker { image 'node:7-alpine' } //定义镜像
+        docker {
+            image 'maven:3-alpine'
+            args '-v $HOME/.m2:/root/.m2' // 为容器添加运行参数
+        }
     }
     stages {
-        stage('Test') {
+        stage('Build') {
             steps {
-                sh 'node --version' // 在镜像 node:7-alpine 中执行该命令
+                sh 'mvn -B' // 在容器中执行该命令
             }
         }
     }
-}
