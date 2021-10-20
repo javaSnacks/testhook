@@ -36,7 +36,6 @@ pipeline {
     stages {
         stage('select agent') {
             agent {
-            label "YX_DEV"
                 docker {
                     image 'maven:3-alpine'
                     image 'gradle:6.6'
