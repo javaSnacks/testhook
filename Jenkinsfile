@@ -2,6 +2,7 @@ pipeline {
     agent {
         docker {
             image 'maven:3-alpine'
+            image 'gradle:6.6'
             args '-v $HOME/.m2:/root/.m2' // 为容器添加运行参数
         }
     }
