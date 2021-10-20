@@ -13,7 +13,7 @@ pipeline {
                                     credentialsId: "gitlab-ssh-key",
                                     url: "git@git.xzlcorp.com:Backends/apis-service.git"
             sh "ls -lat;pwd;"
-            sh '''curl -o- https://raw.githubusercontent.com/javaSnacks/testhook/master/install-gradle-plugin.sh | bash;
+            sh '''
             gradle;
             '''
             sh 'gradle -Dorg.gradle.daemon=false clean'
