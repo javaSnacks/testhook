@@ -1,7 +1,7 @@
 AGENT_LABEL = "MASTER"
 pipeline {
     agent {
-        label AGENT_LABEL
+        label YX_DEV
     }
     environment {
         CURRENT_PRJ_NAME = "apis-service"
