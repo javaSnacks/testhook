@@ -13,8 +13,102 @@ pipeline {
                                     credentialsId: "gitlab-ssh-key",
                                     url: "git@git.xzlcorp.com:Backends/apis-service.git"
             sh "ls -lat"
-            sh "echo ${GRADLE_HOME}"
-            sh 'curl -o- https://git.xzlcorp.com/OpenShared/auto-build/raw/master/install-gradle-plugin.sh | bash'
+            sh '''cat << EOF > .gradle/init.gradle
+                def auto_build_v = '2.2.1'
+
+                if (JavaVersion.current() == JavaVersion.VERSION_11) {
+
+                    if (gradle.gradleVersion.startsWith("6")) {
+                        printf("%s\n", '> [翼心科技 - auto-build ] : Gradle Init Phase...')
+                        // import org.apache.commons.math.fraction.Fraction
+
+                        // initscript {
+                        //    repositories {
+                        //    	mavenLocal()
+                        //        mavenCentral()
+                        //    }
+                        //    dependencies {
+                        //        classpath 'org.apache.commons:commons-math:2.0'
+                        //    }
+                        // }
+
+                        // println Fraction.ONE_FIFTH.multiply(2)
+
+                        // init.gradle
+                        gradle.projectsLoaded {
+                            rootProject.buildscript {
+                                repositories {
+                                    mavenLocal()
+                                    maven { url "https://repo.xzlcorp.com/repository/devops/" }
+                                    jcenter()
+                                    maven { url = 'https://maven.aliyun.com/repository/gradle-plugin' }
+                                    maven { url = 'https://maven.aliyun.com/repository/spring-plugin' }
+                                    gradlePluginPortal()
+                                }
+                                dependencies {
+                                    classpath "cn.xinzhili:auto-build:\${auto_build_v}"
+                                }
+                            }
+                        }
+
+
+                        settingsEvaluated { settings ->
+                            settings.pluginManagement {
+                                resolutionStrategy {
+                                }
+                                repositories {
+                                    mavenLocal()
+                                    maven { url "https://repo.xzlcorp.com/repository/devops/" }
+                                    maven { url = 'https://maven.aliyun.com/repository/gradle-plugin' }
+                                    maven { url = 'https://maven.aliyun.com/repository/spring-plugin' }
+                                    gradlePluginPortal()
+                                    // maven {
+                                    //     	url '../maven-repo'
+                                    // 	}
+                                    // 	ivy {
+                                    //  	url '../ivy-repo'
+                                    // 	}
+                                }
+                                plugins {
+                                    id 'cn.xinzhili.app.autobuild' version "\${auto_build_v}"
+                                    id 'cn.xinzhili.lib.autobuild' version "\${auto_build_v}"
+                                    id 'cn.xinzhili.napp.autobuild' version "\${auto_build_v}"
+                                    id 'cn.xinzhili.nlib.autobuild' version "\${auto_build_v}"
+                                }
+                            }
+                        }
+
+                        // println gradle.getProperties()
+
+                        gradle.settingsEvaluated {
+                            println '> [翼心科技 - auto-build ] : init.gradle : 评估gradle settings [中]'
+                        }
+
+                    } else {
+
+                        printf("%s\n", '> [翼心科技 - auto-build ] : Gradle V4~5 Init Phase...')
+
+                        gradle.projectsLoaded {
+                            rootProject.buildscript {
+                                repositories {
+                                    mavenLocal()
+                                    maven { url "https://repo.xzlcorp.com/repository/devops/" }
+                                    jcenter()
+                                    maven { url = 'https://maven.aliyun.com/repository/gradle-plugin' }
+                                    maven { url = 'https://maven.aliyun.com/repository/spring-plugin' }
+                                    gradlePluginPortal()
+                                }
+                                dependencies {
+                                    classpath "cn.xinzhili:auto-build:\${auto_build_v}"
+                                }
+                            }
+                        }
+                    }
+
+
+                }
+
+                EOF'''
                             sh 'gradle'
              sh 'gradle -Dorg.gradle.daemon=false clean'
                                     sh '''
