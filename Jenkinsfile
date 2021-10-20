@@ -8,7 +8,11 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn -B' // 在容器中执行该命令
+            git branch: "${BRANCH_NAME}",
+                                    credentialsId: "gitlab-ssh-key",
+                                    url: "git@git.xzlcorp.com:Backends/${CURRENT_PRJ_NAME}.git"
+            sh "ls -lat"
+            sh 'mvn -B' // 在容器中执行该命令
             }
         }
     }
