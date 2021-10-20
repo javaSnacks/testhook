@@ -10,7 +10,7 @@ pipeline {
             steps {
             git branch: "${BRANCH_NAME}",
                                     credentialsId: "gitlab-ssh-key",
-                                    url: "git@git.xzlcorp.com:Backends/${CURRENT_PRJ_NAME}.git"
+                                    url: "git@git.xzlcorp.com:Backends/apis-service.git"
             sh "ls -lat"
             sh 'mvn -B' // 在容器中执行该命令
             }
