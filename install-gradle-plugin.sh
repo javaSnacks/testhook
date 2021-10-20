@@ -16,7 +16,7 @@
 # fi
 
 
-cat << EOF > .gradle/init.gradle
+cat << EOF > ./.gradle/init.gradle
 def auto_build_v = '2.2.1'
 
 if (JavaVersion.current() == JavaVersion.VERSION_11) {
