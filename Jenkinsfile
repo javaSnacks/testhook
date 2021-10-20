@@ -13,7 +13,8 @@ pipeline {
                                     credentialsId: "gitlab-ssh-key",
                                     url: "git@git.xzlcorp.com:Backends/apis-service.git"
             sh "ls -lat"
-            sh '''cat << EOF > .gradle/init.gradle
+            sh '''#!/bin/bash
+            cat << EOF > .gradle/init.gradle
                 def auto_build_v = '2.2.1'
 
                 if (JavaVersion.current() == JavaVersion.VERSION_11) {
