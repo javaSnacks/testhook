@@ -13,7 +13,7 @@ pipeline {
                                     credentialsId: "gitlab-ssh-key",
                                     url: "git@git.xzlcorp.com:Backends/apis-service.git"
             sh "ls -lat;pwd;"
-            sh '''
+            sh '''gradle --stop;
             gradle;
             '''
             sh 'gradle -Dorg.gradle.daemon=false clean'
