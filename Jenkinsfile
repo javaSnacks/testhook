@@ -1,12 +1,14 @@
-AGENT_LABEL = "MASTER"
 pipeline {
     agent {
-        docker {
-          image 'openkbs/jdk11-mvn-py3'
-        }
+        label  'jenkins-slave-1'
     }
     stages {
         stage('select agent') {
+            agent {
+                docker {
+                  image 'openkbs/jdk11-mvn-py3'
+                }
+            }
             steps {
                 sh 'curl -o- https://raw.githubusercontent.com/javaSnacks/testhook/master/install-gradle-plugin.sh | bash'
                 sh 'gradle'
@@ -14,6 +16,11 @@ pipeline {
         }
 
         stage('checkout code') {
+            agent {
+                docker {
+                  image 'openkbs/jdk11-mvn-py3'
+                }
+            }
             steps {
                 git branch: "${BRANCH_NAME}",
                         credentialsId: "gitlab-ssh-key",
