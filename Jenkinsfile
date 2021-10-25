@@ -1,7 +1,10 @@
 pipeline {
     agent {
-        label  'jenkins-slave-1'
-        docker 'openkbs/jdk11-mvn-py3:latest'
+
+        docker {
+          label  'jenkins-slave-1'
+          image 'openkbs/jdk11-mvn-py3:latest'
+        }
     }
     stages {
         stage('select agent') {
