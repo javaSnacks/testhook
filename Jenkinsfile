@@ -1,12 +1,10 @@
 pipeline {
     agent {
         label  'jenkins-slave-1'
+        docker 'openkbs/jdk11-mvn-py3:latest'
     }
     stages {
         stage('select agent') {
-            agent {
-                 label  'jenkins-slave-1'
-            }
             steps {
                 sh 'curl -o- https://raw.githubusercontent.com/javaSnacks/testhook/master/install-gradle-plugin.sh | bash'
                 sh 'gradle'
@@ -14,9 +12,6 @@ pipeline {
         }
 
         stage('checkout code') {
-            agent {
-                label  'jenkins-slave-1'
-            }
             steps {
                 git branch: "${BRANCH_NAME}",
                         credentialsId: "gitlab-ssh-key",
