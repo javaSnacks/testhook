@@ -2,9 +2,7 @@ AGENT_LABEL = "MASTER"
 pipeline {
     agent {
         docker {
-          image {
-            'openkbs/jdk11-mvn-py3'
-          }
+          image 'openkbs/jdk11-mvn-py3'
         }
     }
     stages {
