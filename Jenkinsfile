@@ -1,20 +1,31 @@
+AGENT_LABEL = "MASTER"
 pipeline {
-   agent {
-       docker {
-          image 'maven:3.6.2-jdk-8'
+    agent {
+        docker {
+          image {
+            'openkbs/jdk11-mvn-py3'
+          }
         }
-   }
+    }
+    stages {
+        stage('select agent') {
+            steps {
+                sh 'curl -o- https://raw.githubusercontent.com/javaSnacks/testhook/master/install-gradle-plugin.sh | bash'
+                sh 'gradle'
+            }
+        }
 
-
-   stages {
-      stage('Hello') {
-         steps {
-            echo 'Hello World'
-            sh 'mvn -v'
-            sleep 30
-            sh 'docker -v'
-         }
-      }
-   }
+        stage('checkout code') {
+            steps {
+                git branch: "${BRANCH_NAME}",
+                        credentialsId: "gitlab-ssh-key",
+                        url: "git@git.xzlcorp.com:Backends/${CURRENT_PRJ_NAME}.git"
+                sh "ls -lat"
+            }
+        }
+    }
 }
+
+
+
 
