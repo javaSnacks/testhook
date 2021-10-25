@@ -1,1 +1,20 @@
-pipeline {   agent {       label 'jenkins-slave-1'   }     stages {      stage('Hello') {         steps {            echo 'Hello World'            sh 'ls -al'            sleep 30         }      }         }}
+pipeline {
+   agent {
+       docker {
+          image 'maven:3.6.2-jdk-8'
+        }
+   }
+
+
+   stages {
+      stage('Hello') {
+         steps {
+            echo 'Hello World'
+            sh 'mvn -v'
+            sleep 30
+            sh 'docker -v'
+         }
+      }
+   }
+}
+
