@@ -1,7 +1,7 @@
 AGENT_LABEL = "MASTER"
 pipeline {
-    agent {
-        label "YX_DEV"
+    agent{
+      label 'jenkins-slave-1'
     }
     environment {
         CURRENT_PRJ_NAME = "apis-service"
