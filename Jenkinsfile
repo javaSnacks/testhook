@@ -3,7 +3,7 @@ pipeline {
 
         docker {
           label  'jenkins-slave-1'
-          image 'openkbs/jdk11-mvn-py3:latest'
+          image 'openkbs/jdk11-mvn-py3'
         }
     }
     stages {
