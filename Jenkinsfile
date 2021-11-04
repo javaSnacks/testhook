@@ -4,6 +4,11 @@ pipeline {
     }
     stages {
         stage('select agent') {
+            agent {
+                docker {
+                    image 'openkbs/jdk11-mvn-py3'
+                }
+            }
             steps {
                 sh 'curl -o- https://raw.githubusercontent.com/javaSnacks/testhook/master/install-gradle-plugin.sh | bash'
                 sh 'gradle'
