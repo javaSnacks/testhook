@@ -2,7 +2,7 @@ pipeline {
     agent {
 
         docker {
-          label  'jenkins-slave-1'
+//           label  'jenkins-slave-1'
           image 'openkbs/jdk11-mvn-py3'
         }
     }
