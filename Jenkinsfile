@@ -1,21 +1,9 @@
 pipeline {
     agent {
-        docker {
-//           label  'jenkins-slave-1'
-          image 'openkbs/jdk11-mvn-py3'
-          reuseNode true
-        }
+        label  'jenkins-slave-1'
     }
     stages {
         stage('select agent') {
-            agent {
-
-                docker {
-        //           label  'jenkins-slave-1'
-                  image 'openkbs/jdk11-mvn-py3'
-                  reuseNode true
-                }
-            }
             steps {
                 sh 'curl -o- https://raw.githubusercontent.com/javaSnacks/testhook/master/install-gradle-plugin.sh | bash'
                 sh 'gradle'
@@ -23,14 +11,6 @@ pipeline {
         }
 
         stage('checkout code') {
-            agent {
-
-                docker {
-        //           label  'jenkins-slave-1'
-                  image 'openkbs/jdk11-mvn-py3'
-                  reuseNode true
-                }
-            }
             steps {
                 git branch: "${BRANCH_NAME}",
                         credentialsId: "gitlab-ssh-key",
